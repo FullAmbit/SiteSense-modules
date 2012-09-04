@@ -56,6 +56,16 @@ function admin_modulesBuild($data,$db){
 						$targetFunction($db,$languageItem['shortName']);
 					}
 				}
+				// get rid of plugin mappings
+				$statement=$db->prepare('getModuleByShortName','admin_modules');
+				$statement->execute(array(
+					':shortName' => $data->action[3],
+				));
+				$module=$statement->fetch(PDO::FETCH_ASSOC);
+				$statement=$db->prepare('disableAllPluginsForModule','admin_plugins');
+				$statement->execute(array(
+					':module' => $module['id'],
+				));
 			}
 		}
 	}
