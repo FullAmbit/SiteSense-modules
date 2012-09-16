@@ -81,11 +81,11 @@ function admin_modulesBuild($data,$db){
 			case 2:
 				$data->output['upgrade'][]='<li>'.$data->phrases['modules']['validUpdateCheck'].'</li>';
 				$data->output['upgrade'][]='<li>';
-				if(!file_exists('modules/'.$update['shortName'].'/'.$update['shortName'].'.install.php')){
+				if(!file_exists('modules/'.$update['name'].'/'.$update['name'].'.install.php')){
 					$data->output['upgrade'][]=$data->phrases['modules']['errorPrefix'].$data->phrases['modules']['noInstallPhp'];
 					break;
 				}
-				common_include('modules/'.$update['shortName'].'/'.$update['shortName'].'.install.php');
+				common_include('modules/'.$update['name'].'/'.$update['name'].'.install.php');
 				if(!function_exists($update['shortName'].'_settings')){
 					$data->output['upgrade'][]=$data->phrases['modules']['errorPrefix'].$data->phrases['modules']['settingsNotSet'];
 					break;
@@ -98,8 +98,8 @@ function admin_modulesBuild($data,$db){
 				$data->output['upgrade'][]=sprintf($data->phrases['modules']['uploadedVersions'],$modSettings['shortName'],$latestVersion['version']);
 				$data->output['upgrade'][]='</li>
 					<li>'.$data->phrases['modules']['loadingUpdaters'];
-				$updaters=glob('modules/'.$update['shortName'].'/updaters/'.$update['shortName'].'.updater.*to*.php');
-				$path=modules_admin_common_getUpgradePath($data->action[4],$update['oldVersion'],$update['shortName'],$updaters);
+				$updaters=glob('modules/'.$update['name'].'/updaters/'.$update['name'].'.updater.*to*.php');
+				$path=modules_admin_common_getUpgradePath($data->action[4],$update['oldVersion'],$update['name'],$updaters);
 				if(!$path){
 					$data->output['upgrade'][]='</li>
 						<li>'.$data->phrases['modules']['noUpdatersFound'].'</li>
@@ -108,7 +108,7 @@ function admin_modulesBuild($data,$db){
 				}else{
 					foreach($path as $step){
 						$data->output['upgrade'][]='<br>'.sprintf($data->phrases['modules']['runningUpdater'],$step['file'],$step['from'],$step['to']);
-						$updaterOutput=modules_admin_common_runUpgrader($data,$db,$step['to'],$step['from'],$update['shortName'],$step['file']);
+						$updaterOutput=modules_admin_common_runUpgrader($data,$db,$step['to'],$step['from'],$update['name'],$step['file']);
 						if ($updaterOutput){
 							$data->output['upgrade'][]=$data->phrases['modules']['updaterSuccessful'];
 							$statement=$db->prepare('updateModule','admin_modules');
