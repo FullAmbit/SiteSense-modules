@@ -86,11 +86,11 @@ function admin_modulesBuild($data,$db){
 					break;
 				}
 				common_include('modules/'.$update['name'].'/'.$update['name'].'.install.php');
-				if(!function_exists($update['shortName'].'_settings')){
+				if(!function_exists($update['name'].'_settings')){
 					$data->output['upgrade'][]=$data->phrases['modules']['errorPrefix'].$data->phrases['modules']['settingsNotSet'];
 					break;
 				}
-				$modSettings=call_user_func($update['shortName'].'_settings');
+				$modSettings=call_user_func($update['name'].'_settings');
 				if(!is_array($modSettings)||!isset($modSettings['name'])||!isset($modSettings['shortName'])){
 					$data->output['upgrade'][]=$data->phrases['modules']['errorPrefix'].$data->phrases['modules']['settingsNotArray'];
 					break;
