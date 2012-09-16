@@ -26,7 +26,7 @@ function modules_settings() {
 	return array(
 		'name'      => 'modules',
 		'shortName' => 'modules',
-		'version'   => '1.0.2'
+		'version'   => '1.0.3'
 	);
 }
 function modules_install($db,$drop=false,$firstInstall=false,$lang="en_us") {
