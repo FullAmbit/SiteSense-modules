@@ -80,7 +80,9 @@ function theme_modulesListTableRow($data,$module,$count) {
 				<td>', $module['version'], '</td>
 				<td>', (($module['enabled'] == 1) ? 'yes' : 'no'), '</td> 
 				<td class="buttonList">';
-				
+	if(isset($data->settings[$module['name']])&&is_array($data->settings[$module['name']])){
+		echo '<a href="',$data->linkRoot,'admin/settings/group/',$module['shortName'],'">',$data->phrases['core']['settings'],'</a> ';
+	}
 	if($module['enabled'])
 		echo '<a href="', $data->linkRoot, 'admin/modules/disable/',$module['shortName'],'">',$data->phrases['core']['disable'],'</a>';
 	else
